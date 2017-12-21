@@ -1,0 +1,147 @@
+#export EDITOR='vim'
+#export SSH_KEY_PATH="~/.ssh/rsa_id"
+export PATH="$HOME/bin:/usr/local/opt/gettext/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
+#export ZSH=$HOME/.oh-my-zsh
+#export TERM="xterm-256color"
+
+
+#export LC_ALL=en_US.UTF-8
+#export LANG=en_US.UTF-8
+
+#   SYSTEM ALIASES
+# --------------------
+
+# prevent embarassingly running command on whole server
+# does not work on osx
+# alias chown='chown --preserve-root'
+# alias chmod='chmod --preserve-root'
+# alias chgrp='chgrp --preserve-root'
+
+# Interactive confirmation
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+
+# set defaults for disk usage and disk free
+alias df='df -H'
+alias du='du -ch'
+
+# Resume wget by default
+alias wget='wget -c'
+
+# Create parent directories on demand ##
+alias mkdir='mkdir -pv'
+
+# Colorize the grep command output for ease of use (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# get rid of command not found ##
+alias cd..='cd ..'
+
+# a quick way to get out of current directory
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+# Colorize the ls output
+alias ls='ls -ahltG'
+
+
+
+# --------------------
+#   DOCKER ALIASES
+# --------------------
+
+# Get latest container ID
+alias dl="docker ps -l -q"
+# Get container processes
+alias dps="docker ps"
+# Get container processes for smaller screens
+alias dpsf="docker ps --size --format \"table {{.Names}}\t{{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Command}}\t{{.Ports}}\" | tail -n +2 | sort"
+# Get process included stop container
+alias dpa="docker ps --size -a"
+# Get images
+alias di="docker images"
+# Get container IP
+alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
+# Run deamonized container, e.g., $dkd base /bin/echo hello
+alias dkd="docker run -d -P"
+# Run interactive container, e.g., $dki base /bin/bash
+alias dki="docker run -i -t -P"
+dkill() { docker kill $@; }
+# Execute interactive container, e.g., $dex base /bin/bash
+alias dex="docker exec -i -t"
+# Stop all containers
+dstop() { docker stop $(docker ps -a -q); }
+# Remove all exited containers
+drm() { docker rm -v $(docker ps --filter status=exited -aq); }
+# Remove all containers
+drmf() { docker rm -v -f $(docker ps -aq); }
+# Remove all unused images
+dri() { docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc); }
+# Remove all images
+drif() { docker rmi -f $(docker images -q --no-trunc); }
+# Remove all orphaned volumes
+drv() { docker volume rm $(docker volume ls --filter "dangling=true" -q); }
+# Remove all volumes
+drvf() { docker volume rm -f $(docker volume ls -q); }
+# Remove all exited containers, unused images and orphaned volumes
+alias dclear="drm; drv; dri;"
+# Remove all containers, images and volumes with force
+alias dclean="drmf; drvf; drif;"
+alias dcb="docker-compose build"
+alias dcu="docker-compose up"
+alias dcs="docker-compose stop"
+alias dck="docker-compose kill"
+alias dcr="docker-compose rm -f"
+
+# Show all alias related docker
+dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
+
+
+# --------------------
+#   GIT ALIASES
+# --------------------
+
+alias gac='git add -A . && git commit -m' $1
+alias gpom='git push origin master'
+alias gpod='git push origin develop'
+alias gtf='git tag -l | xargs git tag -d && git fetch'
+alias gt='git tag'
+alias ga='git add'
+alias gaa='git add .'
+alias gaaa='git add -A'
+alias gb='git branch'
+alias gbd='git branch -d '
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gcob='git checkout -b'
+alias gcom='git checkout master'
+alias gd='git diff'
+alias gda='git diff HEAD'
+alias gi='git init'
+alias gl='git log'
+alias glg='git log --graph --oneline --decorate --all'
+alias gld='git log --pretty=format:"%h %ad %s" --date=short --all'
+alias gm='git merge --no-ff'
+alias gp='git pull'
+alias gss='git status -s'
+alias gst='git stash'
+alias gstl='git stash list'
+alias gstp='git stash pop'
+alias gstd='git stash drop'
+alias grsh='git reset --soft HEAD~${1:-1}'
+alias gpps='for ns in *; do echo "\t$ns" && cd $ns && for r in *; do echo "\t\t$r" && cd $r && git pull --recurse-submodules && cd ../; done; cd ../; done'
+
+# Show all alias related git
+galias() { alias | grep 'git' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
+
+# Git log find by commit message
+function glf() { git log --all --grep="$1"; }
+

@@ -1,0 +1,14 @@
+#some dark magic
+
+1) mysql -u root -e"select concat('show grants for ','\'',user,'\'@\'',host,'\'') from mysql.user" > user_list_with_header.txt
+2) sed '1d' user_list_with_header.txt > ./user.txt
+3) while read user; do  mysql -u root -e"$user" > user_grant.txt; sed '1d' user_grant.txt >> user_privileges.txt; echo "flush privileges" >> user_privileges.txt; done < user.txt
+4) awk '{print $0";"}'  user_privileges.txt >user_privileges_final.sql
+
+#delete everything, related to root
+
+5) sed -i.bak '/root/d' user_privileges_final.sql
+
+#cleanup
+
+6) rm user.txt user_list_with_header.txt user_grant.txt user_privileges.txt user_privileges_final.sql.bak
