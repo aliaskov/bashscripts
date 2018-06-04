@@ -1,1 +1,1 @@
-# my usefull bashscripts
+# my useful bashscripts
