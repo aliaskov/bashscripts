@@ -1,0 +1,38 @@
+#!/bin/bash
+sudo yum update -y
+amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
+sudo yum install -y httpd mariadb-server mariadb php php-xml php-intl php-gd  php-mbstring php-mysql
+sudo systemctl start mariadb
+systemctl enable mariadb
+systemctl start httpd
+systemctl enable httpd
+usermod -a -G apache ec2-user
+chown -R ec2-user:apache /var/www
+chmod 2775 /var/www
+find /var/www -type d -exec chmod 2775 {} \;
+find /var/www -type f -exec chmod 0664 {} \;
+echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+curl -O https://releases.wikimedia.org/mediawiki/1.31/mediawiki-1.31.0.tar.gz
+tar xvzf mediawiki-*.tar.gz
+sudo mv mediawiki-*/* /var/www/html
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+
+# Make sure that NOBODY can access the server without a password
+mysql -e "UPDATE mysql.user SET Password = PASSWORD('rootroot') WHERE User = 'root'"
+# Kill the anonymous users
+mysql -e "DROP USER ''@'localhost'"
+# Because our hostname varies we'll use some Bash magic here.
+mysql -e "DROP USER ''@'$(hostname)'"
+# Kill off the demo database
+mysql -e "DROP DATABASE test"
+# Make our changes take effect
+mysql -e "FLUSH PRIVILEGES"
+# Any subsequent tries to run queries this way will get access denied because lack of usr/pwd param
+echo “DB”
+
+mysql -u root -prootroot -e "CREATE DATABASE my_wiki"
+mysql -u root -prootroot -e "CREATE USER sammy@localhost IDENTIFIED BY 'rootroot'"
+mysql -u root -prootroot -e "GRANT INDEX, CREATE, SELECT, INSERT, UPDATE, DELETE, ALTER, LOCK TABLES ON my_wiki.* TO 'sammy'@'localhost' IDENTIFIED BY 'password'"
+mysql -u root -prootroot -e "FLUSH PRIVILEGES"
+
