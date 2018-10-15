@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# start this script in screen mode, plus add 2>$1 > output.log
+# Don't forget to start this script in screen mode
 
 USER="root"
 PASSWORD="PASS"
@@ -13,7 +13,7 @@ SCRIPTS="*.sql"
 
 for s in $SCRIPTS
 do
-  echo "Processing $s ... " \
+  echo "Processing $s ... " 
   mysql -h $HOST -u $USER -p$PASSWORD --verbose < $s
 done
 echo "Done"
