@@ -1,0 +1,43 @@
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y epel-release
+sudo yum install -y httpd mysql-server mysql php php-xml php-intl php-gd  php-mbstring php-mysql php-fpm
+sudo service mysqld start
+sudo systemctl enable mysqld
+sudo service httpd start 
+sudo systemctl enable httpd
+
+
+# Because our hostname varies we'll use some Bash magic here.
+mysql -e "DROP USER ''@'$(hostname)'"
+# Kill off the demo database
+mysql -e "DROP DATABASE test"
+# Make our changes take effect
+mysql -e "FLUSH PRIVILEGES"
+# Any subsequent tries to run queries this way will get access denied because lack of usr/pwd param
+
+
+usermod -a -G apache ec2-user
+chown -R ec2-user:apache /var/www
+chmod 2775 /var/www
+find /var/www -type d -exec chmod 2775 {} \;
+find /var/www -type f -exec chmod 0664 {} \;
+echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+
+mysql -u root  -e "CREATE DATABASE wordpress"
+mysql -u root  -e "CREATE USER wordpressuser@localhost IDENTIFIED BY 'wordpresspassword'"
+mysql -u root  -e "GRANT ALL PRIVILEGES ON wordpress.* TO wordpressuser@localhost IDENTIFIED BY 'wordpresspassword'"
+mysql -u root  -e "FLUSH PRIVILEGES"
+
+cd ~
+wget http://wordpress.org/latest.tar.gz
+tar xzvf latest.tar.gz
+sudo rsync -avP ~/wordpress/ /var/www/html/
+mkdir /var/www/html/wp-content/uploads
+sudo chown -R apache:apache /var/www/html/*
+cd /var/www/html
+cp wp-config-sample.php wp-config.php
+sed -i -e 's/database_name_here/wordpress/g' wp-config.php
+sed -i -e 's/username_here/wordpressuser/g' wp-config.php
+sed -i -e 's/password_here/wordpresspassword/g' wp-config.php
+sudo service httpd restart
