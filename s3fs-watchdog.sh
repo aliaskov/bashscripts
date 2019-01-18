@@ -12,6 +12,8 @@ MOUNT=/bin/mount
 UMOUNT=/bin/umount
 NOTIFY=user@domain.com
 DATE=/bin/date
+RUNUSER=/sbin/runuser
+AWS_CLI=/home/ec2-user/.local/bin/aws
 
 
 if [ -f $FILE ]; then
@@ -21,7 +23,7 @@ else
    $UMOUNT $MOUNTPATH -fl >/dev/null 2>&1
    $MOUNT -a >/var/log/s3fs-watchdog.log 2>&1
    echo "s3fs for $BUCKET was not running and was restarted on `$DATE`" >> /var/log/s3fs-watchdog.log
-   /sbin/runuser -l ec2-user -c "aws ses send-email --from noreply@domain.com --destination='ToAddresses=$NOTIFY' --message 'Subject={Data=from interaktiv s3fs-watchdog,Charset=utf8},Body={Text={Data=s3fs watchdog alert,Charset=utf8},Html={Data=s3fs for $BUCKET was not running and was restarted on `$DATE`,Charset=utf8}}' --region eu-west-1"
+   $RUNUSER -l ec2-user -c "$AWS_CLI ses send-email --from noreply@domain.com --destination='ToAddresses=$NOTIFY' --message 'Subject={Data=from interaktiv s3fs-watchdog,Charset=utf8},Body={Text={Data=s3fs watchdog alert,Charset=utf8},Html={Data=s3fs for $BUCKET was not running and was restarted on `$DATE`,Charset=utf8}}' --region eu-west-1"
 
 
 fi
