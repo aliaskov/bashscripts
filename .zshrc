@@ -66,7 +66,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git aws kubectl kube-ps1)
+plugins=(git aws kubectl kube-ps1 zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 source /usr/local/opt/kube-ps1/share/kube-ps1.sh
@@ -245,6 +245,26 @@ function glf() { git log --all --grep="$1"; }
 
 
 
+preexec () {
+        case "$(kubectl config current-context)" in
+                "staging")
+                        export account=staging
+                        ;;
+                "commons")
+                        export account=commons
+                        ;;
+                "production")
+                        export account=production
+                        ;;
+                "eks-cluster-dev")
+                        export account=dev
+                        ;;
+        esac
+
+}
+
 #
 #
-#
+
+#export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+#export PATH="/usr/local/bin/minikube"
