@@ -1,4 +1,6 @@
 ### JetBrains template
+##  git config --global core.excludesfile .gitignore
+###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
 
 # plz read fucking readme.md
