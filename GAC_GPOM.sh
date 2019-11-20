@@ -4,7 +4,6 @@ REPONAME=/tmp/testrepo
 GITHUB_USER=username
 GITHUB_PASSWORD=12234
 
-
 #in case if there is no directory
 if [ ! -d $REPONAME ]; then
 mkdir $REPONAME 
@@ -23,7 +22,6 @@ git add .
 git commit -m "initial commit"
 git push -u origin master
 ## git push https://$GITHUB_USER:$GITHUB_PASSWORD@myrepository.biz/file.git --all 
-
 
 
 for run in {1..10}
