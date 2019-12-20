@@ -1,0 +1,8 @@
+###Redeploy filebeats 
+```
+for fb in $(kubectl get pods | grep file| awk '{print $1}'); do echo $fb && sleep 5 && kubectl delete pod $fb; done
+```
+###Execute commant via ssh on every node
+```
+for nodeip in $( kg nodes -o wide | awk '{print $6}' | tail +2 ); do echo $nodeip && sleep 1 && ssh -o "StrictHostKeyChecking no" -i ~/Projects/eks-cluster-stag-2.pem ec2-user@$nodeip 'sudo rm -rf /var/lib/filebeat-data/registry/'; done
+```
