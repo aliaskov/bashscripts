@@ -28,3 +28,7 @@ for NS in $(kubectl get ns | awk '{print $1}'| tail +2)
 "
     sleep 1
   done
+
+
+### Simple endless loop 
+while true; do echo "hello" && date && sleep 2; done
