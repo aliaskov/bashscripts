@@ -8,3 +8,23 @@ for nodeip in $( kubectl get nodes -o wide | awk '{print $6}' | tail +2 ); do ec
 ```
 ###Get IPs
 kubectl get pods -o jsonpath='{range .items[*]}{.status.hostIP}{"\n"}{end}' | sort -u
+
+
+## Add kibana index pattern of all namespaces
+# For all namespaces
+#!/bin/bash
+ES_ENDPOINT=
+NS=
+
+for NS in $(kubectl get ns | awk '{print $1}'| tail +2)
+  do
+    curl -X POST  "$ES_ENDPOINT/_plugin/kibana/api/saved_objects/index-pattern/$NS" -H 'Content-Type: application/json' -H 'kbn-xsrf: true' -d"
+{
+  \"attributes\": {
+    \"title\": \"ns-${NS}-*\",
+    \"timeFieldName\": \"@timestamp\"
+  }
+}
+"
+    sleep 1
+  done
