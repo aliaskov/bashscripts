@@ -7,6 +7,6 @@ databases=`mysql -u $USER -p$PASSWORD -h $HOST --silent  -e "SHOW DATABASES;" | 
 for db in $databases; do
     if [[ "$db" != "information_schema" ]] && [[ "$db" != "performance_schema" ]] && [[ "$db" != "mysql" ]] && [[ "$db" != _* ]] ; then
         echo "Dumping database: $db"
-        mysqldump -d -u $USER -p$PASSWORD -h $HOST --single-transaction --order-by-primary --compress  --databases $db > `date +%Y%m%d`.$db.sql
+        mysqldump -u $USER -p$PASSWORD -h $HOST --single-transaction --column-statistics=0 --order-by-primary --compress  --databases $db > `date +%Y%m%d`.$db.sql
     fi
 done
