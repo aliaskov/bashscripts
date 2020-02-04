@@ -10,3 +10,7 @@ for db in $databases; do
         mysqldump -u $USER -p$PASSWORD -h $HOST --single-transaction --column-statistics=0 --order-by-primary --compress  --databases $db > `date +%Y%m%d`.$db.sql
     fi
 done
+### Backup users and privileges
+mysql -u $USER -p$PASSWORD -h $HOST --skip-column-names -A -e "SELECT CONCAT('CREATE USER ','\'',user,'\'@\'',host,'\'','  IDENTIFIED BY PASSWORD ','\'',password,'\';') from mysql.user;" > Users.sql
+mysql -u $USER -p$PASSWORD -h $HOST --skip-column-names -A -e "SELECT CONCAT('SHOW GRANTS FOR ''',user,'''@''',host,''';') AS query FROM mysql.user WHERE user NOT IN ('root','pma','rdsadmin','mysql.sys')" | mysql -u $USER -p$PASSWORD -h $HOST --skip-column-names -A | sed 's/$/;/g' | sed 's/IDENTIFIED BY PASSWORD <secret>//g' >> Users.sql
+echo "flush privileges;" >> Users.sql
