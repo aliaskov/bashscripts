@@ -2,6 +2,12 @@
 
 1) mysql -u root -e"select concat('show grants for ','\'',user,'\'@\'',host,'\'') from mysql.user" > user_list_with_header.txt
 2) sed '1d' user_list_with_header.txt > ./user.txt
+
+
+select concat('CREATE USER ','\'',user,'\'@\'',host,'\'','  IDENTIFIED BY PASSWORD ','\'',password,'\';' ) from mysql.user;
+
+mysql ${MYSQL_CONN} --skip-column-names -A -e "SELECT CONCAT('SHOW GRANTS FOR ''',user,'''@''',host,''';') AS query FROM mysql.user WHERE user NOT IN ('root','pma','phpmyadmin','debian-sys-maint')" | mysql ${MYSQL_CONN} --skip-column-names -A | sed 's/$/;/g' > ~/MySQLUserGrants.sql
+
 3) while read user; do  mysql -u root -e"$user" > user_grant.txt; sed '1d' user_grant.txt >> user_privileges.txt; echo "flush privileges" >> user_privileges.txt; done < user.txt
 4) awk '{print $0";"}'  user_privileges.txt >user_privileges_final.sql
 
