@@ -39,3 +39,7 @@ target/
 /.classpath
 /.project
 .settings/
+
+
+#x-code
+*.xcodeproj
