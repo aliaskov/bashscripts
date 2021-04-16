@@ -1,3 +1,22 @@
+#INSTALL
+# brew tap sambadevi/powerlevel9k
+# brew install powerlevel9k
+#  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#  git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+#  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+#  wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+#  wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+#  mv PowerlineSymbols.otf ~/.local/share/fonts/
+#  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+#  cp MesloLGS\ NF\ Regular.ttf ~/.local/share/fonts/
+#  git clone https://github.com/powerline/fonts.git
+#  cd fonts
+#  ./install.sh
+#  compaudit | xargs chmod g-w,o-w
+#  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+
+
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -8,11 +27,13 @@ export ZSH="/Users/andrei.liaskovski/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# font with icons https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel9k/powerlevel9k"
 POWERLEVEL9K_MODE='awesome-fontconfig'
 
-AWS_DEFAULT_PROFILE=main
+AWS_DEFAULT_PROFILE=AWS
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
 # The output of the kube_ps1 function is text, so it can be used
