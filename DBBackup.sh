@@ -1,4 +1,6 @@
 #!/bin/bash
+#NAME=DATABASE
+#Hello $NAME
 USER="root"
 PASSWORD="PASS"
 HOST="HOST"
