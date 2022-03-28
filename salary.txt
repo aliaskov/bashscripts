@@ -1,5 +1,4 @@
  emp_id | emp_name | job_name  | manager_id | hire_date  | salary  | commission | dep_id
- 
   68319 | KAYLING  | PRESIDENT |            | 1991-11-18 | 6000.00 |            |   1001
   66928 | BLAZE    | MANAGER   |      68319 | 1991-05-01 | 2750.00 |            |   3001
   67832 | CLARE    | MANAGER   |      68319 | 1991-06-09 | 2550.00 |            |   1001
