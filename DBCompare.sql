@@ -31,3 +31,4 @@ select concat('select "', table_schema, '.', table_name, '" as `schema.table`,
  select '(select null, null limit 0);';
  
  ##https://www.dbsolo.com/help/compare.html
+#test

@@ -16,3 +16,4 @@ find $logdir1 $logdir2 -maxdepth 2 -type f -name "*default*" -mmin +1440 ! -name
 
 ###delete .gz files older than x days
 find $logdir1 $logdir2 $logdir3 -maxdepth 1 -type f \( -name '*.gz' \)  -mtime +7 -delete
+#test
