@@ -7,7 +7,9 @@ sudo systemctl enable mysqld
 sudo service httpd start 
 sudo systemctl enable httpd
 
-
+#
+#
+#Mysql
 # Because our hostname varies we'll use some Bash magic here.
 mysql -e "DROP USER ''@'$(hostname)'"
 # Kill off the demo database
