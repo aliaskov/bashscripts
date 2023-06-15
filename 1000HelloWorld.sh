@@ -1,7 +1,7 @@
 #!/bin/bash
 for run in {1..1000}
 do
-  echo "Hello world!"
+  echo "Good morning!"
   echo $run
   echo "good morning"
   sleep 2
