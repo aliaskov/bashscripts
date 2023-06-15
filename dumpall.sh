@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 #30 1 * * * /opt/mysql/dumpall.sh > /var/backup/mysql/logs/dumpall_$(date +\%d-\%m-\%Y).log 2>&1
+#Hallo, Sergei Bugaenko was here
 
 DBLIST=`echo "show databases;"|/usr/bin/mysql -s -uroot -pPASSWORD`
 LOCK=/tmp/mysql_dump.lck
