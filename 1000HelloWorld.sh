@@ -1,6 +1,7 @@
 #!/bin/bash
 for run in {1..1000}
 do
+  echo " Hello Andrew"
   echo "Hello world!"
   echo $run
   echo "good morning"
