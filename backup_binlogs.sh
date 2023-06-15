@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 # 0,15,30,45 * * * * /opt/mysql/backup_binlogs.sh > /var/backup/mysql/logs/binlog_$(date +\%d-\%m-\%Y_\%H\%M).log 2>&1
-#MynameisDima
+#My name is Dima
 
 
 
