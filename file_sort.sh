@@ -18,6 +18,7 @@ FILES="/opt/files/*.psd"
 for f in $FILES
 do
   echo "Processing $f file..."
+  echo "test"
   mkdir -p ${f%%_*} 
   cp $f ${f%%_*} 
 done
