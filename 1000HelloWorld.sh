@@ -7,3 +7,6 @@ do
   sleep 2
   date +"%H:%M:%S"
 done
+
+
+#Hello, I am Hanna Telepnieva
