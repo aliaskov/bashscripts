@@ -33,7 +33,7 @@ thumbs.db
 .DS_Store
 *.log
 
-test/
+
 target/generated-sources/
 target/
 /.classpath
