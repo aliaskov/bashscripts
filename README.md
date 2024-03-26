@@ -1,3 +1,0 @@
-# my useful bashscripts
-#test
-   
